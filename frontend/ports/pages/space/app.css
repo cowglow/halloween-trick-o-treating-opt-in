@@ -1,0 +1,463 @@
+/*
+ * Pico draws the controls. This file sets the Halloween theme through Pico's
+ * own variables, and adds the few layouts Pico has no component for: the
+ * full-screen map with its bars, the bottom sheet, and the nudge pad.
+ */
+
+:root:not([data-theme="dark"]),
+[data-theme="light"] {
+  --pico-font-family-sans-serif: "Nunito", system-ui, sans-serif;
+  --pico-font-family: var(--pico-font-family-sans-serif);
+  --pico-background-color: #fffbf5;
+  --pico-color: #1f1a2e;
+  --pico-muted-color: #5b5470;
+  --pico-muted-border-color: #eadfcc;
+  --pico-border-radius: 14px;
+  --pico-card-background-color: #ffffff;
+  --pico-form-element-background-color: #ffffff;
+  --pico-form-element-border-color: #d9cdb8;
+
+  /* Pumpkin: white text on it passes WCAG AA (5.2:1). */
+  --pico-primary: #c2410c;
+  --pico-primary-background: #c2410c;
+  --pico-primary-border: #c2410c;
+  --pico-primary-underline: rgba(194, 65, 12, 0.5);
+  --pico-primary-hover: #9a3412;
+  --pico-primary-hover-background: #9a3412;
+  --pico-primary-hover-border: #9a3412;
+  --pico-primary-hover-underline: #9a3412;
+  --pico-primary-focus: rgba(194, 65, 12, 0.35);
+  --pico-primary-inverse: #ffffff;
+
+  /* Night purple. */
+  --pico-secondary: #5b3a8c;
+  --pico-secondary-background: #5b3a8c;
+  --pico-secondary-border: #5b3a8c;
+  --pico-secondary-underline: rgba(91, 58, 140, 0.5);
+  --pico-secondary-hover: #46296f;
+  --pico-secondary-hover-background: #46296f;
+  --pico-secondary-hover-border: #46296f;
+  --pico-secondary-hover-underline: #46296f;
+  --pico-secondary-focus: rgba(91, 58, 140, 0.35);
+  --pico-secondary-inverse: #ffffff;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Fredoka", var(--pico-font-family-sans-serif);
+  font-weight: 600;
+}
+
+/* Destructive buttons: the primary colors swapped for red, so Pico's
+   filled, outline and hover styles all follow. */
+.danger {
+  --pico-primary: #b42318;
+  --pico-primary-background: #b42318;
+  --pico-primary-border: #b42318;
+  --pico-primary-hover: #8f1c13;
+  --pico-primary-hover-background: #8f1c13;
+  --pico-primary-hover-border: #8f1c13;
+  --pico-primary-focus: rgba(180, 35, 24, 0.35);
+}
+
+/* Screens with text: one narrow column. */
+.page {
+  box-sizing: border-box;
+  max-width: 36rem;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 1.5rem 1rem calc(1.5rem + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+}
+.page > main {
+  flex: 1;
+}
+.page > footer {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+/* Buttons stacked full width, the main action first. */
+.actions {
+  display: grid;
+  gap: 0.5rem;
+}
+.actions > * {
+  width: 100%;
+  margin: 0;
+}
+
+/* An icon next to a button's text. */
+button:has(> svg),
+[role="button"]:has(> svg) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.notice {
+  background: #ffedd5;
+  color: #7c2d12;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+}
+
+/* The signed-in home: the map fills the window between two bars. */
+.map-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+  padding-top: calc(0.5rem + env(safe-area-inset-top));
+  background: var(--pico-background-color);
+  box-shadow: 0 1px 0 var(--pico-muted-border-color);
+  z-index: 2;
+}
+.top-bar h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+.top-bar small {
+  color: var(--pico-muted-color);
+}
+.top-bar > .grow {
+  flex: 1;
+  min-width: 0;
+}
+.map-area {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+.bottom-bar {
+  padding: 0.75rem 1rem calc(1rem + env(safe-area-inset-bottom));
+  background: var(--pico-background-color);
+  border-radius: 22px 22px 0 0;
+  box-shadow: 0 -4px 24px rgba(31, 26, 46, 0.14);
+  z-index: 2;
+}
+.bottom-bar h1 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Controls floating over the map's top-left corner. */
+.floating {
+  position: absolute;
+  z-index: 1;
+  top: 0.75rem;
+  left: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+.floating > * {
+  pointer-events: auto;
+  margin: 0;
+}
+.chip {
+  background: #ffedd5;
+  color: #7c2d12;
+  font-weight: 700;
+  font-size: 0.875rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
+}
+
+/* Square buttons holding only an icon. */
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  margin: 0;
+}
+
+/* Also a role="group", which Pico would otherwise draw as a joined button row. */
+.nudge-pad[role="group"] {
+  position: absolute;
+  width: auto;
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+  z-index: 1;
+  right: 0.75rem;
+  bottom: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(3, 44px);
+  grid-template-rows: repeat(3, 44px);
+  gap: 2px;
+}
+.nudge-pad[role="group"] button {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  margin: 0;
+  border-radius: 10px;
+  background: #ffffff;
+  border: 1px solid #d9cdb8;
+  color: #1f1a2e;
+  box-shadow: 0 2px 6px rgba(31, 26, 46, 0.15);
+}
+.nudge-pad button:nth-child(1) {
+  grid-area: 1 / 2;
+}
+.nudge-pad button:nth-child(2) {
+  grid-area: 2 / 1;
+}
+.nudge-pad button:nth-child(3) {
+  grid-area: 2 / 3;
+}
+.nudge-pad button:nth-child(4) {
+  grid-area: 3 / 2;
+}
+
+/* The list view scrolls inside the map area, with room for the floating controls. */
+.list-view {
+  padding: 7rem 1rem 1rem;
+  max-width: 36rem;
+  margin: 0 auto;
+}
+
+/* The menu: a bottom sheet on phones, a centered dialog on wide screens. */
+dialog.sheet {
+  align-items: flex-end;
+}
+dialog.sheet > article {
+  width: 100%;
+  max-width: 36rem;
+  margin: 0;
+  border-radius: 22px 22px 0 0;
+  padding-bottom: calc(var(--pico-block-spacing-vertical) + env(safe-area-inset-bottom));
+}
+@media (min-width: 576px) {
+  dialog.sheet {
+    align-items: center;
+  }
+  dialog.sheet > article {
+    border-radius: 22px;
+  }
+}
+
+/* Pico rounds checkboxes with the 14px radius, which makes them look like radios. */
+[type="checkbox"]:not([role="switch"]) {
+  border-radius: 6px;
+}
+
+.center {
+  text-align: center;
+}
+
+.kicker {
+  margin-bottom: 0.25rem;
+  font-weight: 700;
+  color: var(--pico-secondary);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+ul.list-view {
+  list-style: none;
+}
+ul.list-view > li {
+  list-style: none;
+}
+ul.list-view article {
+  margin-bottom: 0.75rem;
+}
+ul.list-view article p {
+  margin: 0.25rem 0 0;
+}
+
+/* The invite and sign-in pages' pumpkin and headline. */
+.hero {
+  text-align: center;
+}
+.hero svg {
+  margin-bottom: 1rem;
+}
+
+/* The welcome screen's numbered steps, as cards. */
+ol.steps {
+  padding: 0;
+  counter-reset: step;
+}
+ol.steps > li {
+  list-style: none;
+  counter-increment: step;
+  position: relative;
+  margin-bottom: 0.75rem;
+  padding: 1rem 1rem 1rem 3.75rem;
+  background: var(--pico-card-background-color);
+  border-radius: var(--pico-border-radius);
+  box-shadow: var(--pico-card-box-shadow);
+}
+ol.steps > li::before {
+  content: counter(step);
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #ffedd5;
+  color: #9a3412;
+  font-family: "Fredoka", sans-serif;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+ol.steps p {
+  margin: 0.25rem 0 0;
+}
+
+.floating [role="group"] {
+  width: auto;
+  margin: 0;
+  background: var(--pico-background-color);
+}
+.kicker + h1 {
+  margin-top: 0;
+}
+
+/* MapLibre's pin popup: Pico would draw its × as a full primary button. */
+.maplibregl-popup-content {
+  border-radius: 14px;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  box-shadow: 0 6px 20px rgba(31, 26, 46, 0.18);
+  font-family: var(--pico-font-family);
+}
+.maplibregl-popup-content p {
+  margin: 0.25rem 0 0;
+}
+button.maplibregl-popup-close-button {
+  top: 0.25rem;
+  right: 0.25rem;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  box-shadow: none;
+  color: var(--pico-muted-color);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+/* "Let your neighbors know": a phone-sized preview of each WhatsApp image,
+   and its caption with the line breaks it will have in WhatsApp. */
+.share-preview {
+  display: block;
+  width: 100%;
+  max-width: 16rem;
+  height: auto;
+  margin-bottom: var(--pico-spacing);
+  border-radius: var(--pico-border-radius);
+  box-shadow: var(--pico-card-box-shadow);
+}
+
+.share-caption {
+  white-space: pre-line;
+  font-size: 0.9em;
+}
+
+/* Who someone is invited as (RoleChoice): one card per option, like the
+   "Who are you inviting?" WhatsApp image; the chosen one in the theme's
+   pumpkin, with a light tint. Then the "can't be changed" warning. */
+.role-option {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  padding: 0.9rem 1rem;
+  border: 2px solid var(--pico-muted-border-color);
+  border-radius: calc(var(--pico-border-radius) * 2);
+  cursor: pointer;
+}
+
+.role-option:has(input:checked) {
+  border-color: var(--pico-primary);
+  background: #fff1e6;
+}
+
+.role-option input {
+  flex: none;
+  margin-top: 0.15rem;
+}
+
+.role-option strong {
+  display: flex;
+  gap: 0.4rem;
+  align-items: flex-start;
+  color: var(--pico-color);
+}
+
+.role-option strong svg {
+  flex: none;
+  margin-top: 0.15em;
+  color: var(--pico-secondary);
+}
+
+.role-option small {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--pico-muted-color);
+}
+
+.role-fixed {
+  display: block;
+}
+
+/* The project site: the hero, three tall screenshots side by side, and
+   the pilot's timeline. */
+.site-hero {
+  margin-bottom: calc(var(--pico-spacing) * 2);
+}
+.site-images {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: var(--pico-spacing);
+}
+.site-images img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--pico-border-radius);
+  box-shadow: var(--pico-card-box-shadow);
+}
+.site-timeline {
+  padding-left: 0;
+}
+.site-timeline > li {
+  list-style: none;
+}

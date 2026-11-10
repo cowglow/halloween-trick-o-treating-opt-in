@@ -1,0 +1,160 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+// The connection URL lives in prisma.config.ts (Prisma 7).
+datasource db {
+  provider = "postgresql"
+}
+
+// --- Opt-in neighborhood maps (Spaces) ---
+// A Space is one neighborhood map for one event (this deployment: Meckenhausen,
+// Halloween). Each participant owns at most one SpaceLocation pin; access is
+// invite-only (magic links), with no public view.
+
+enum SpaceRole {
+  // Owns a pin, can edit or delete it, and can invite others.
+  participant
+  // Read-only map access. Arrives by invite only, same as a participant.
+  visitor
+}
+
+model Space {
+  id        String   @id @default(uuid())
+  slug      String   @unique
+  name      String
+  createdAt DateTime @default(now())
+
+  participants SpaceParticipant[]
+  locations    SpaceLocation[]
+  invites      SpaceInvite[]
+  accessRequests SpaceAccessRequest[]
+  accessAnswers  SpaceAccessAnswer[]
+}
+
+model SpaceParticipant {
+  id            String    @id @default(uuid())
+  spaceId       String
+  space         Space     @relation(fields: [spaceId], references: [id])
+  email         String
+  role          SpaceRole
+  // GDPR consent record captured at invite-accept time - see
+  // domain/audit... no, this system has no audit log (see comment above);
+  // consentAt/noticeVersion IS the record, kept forever until the participant
+  // is deleted (consent withdrawal = deletion, see "Remove me").
+  consentAt     DateTime
+  noticeVersion String
+  // Which language their emails are written in (en/de/es): set on joining,
+  // updated whenever they ask for a sign-in link or open the map
+  // (PUT /:slug/me/language).
+  language      String    @default("de")
+  // When the thank-you email went out (prisma/thank-space.ts), so a rerun
+  // after a partial failure doesn't send it twice.
+  thankedAt     DateTime?
+  createdAt     DateTime  @default(now())
+
+  location        SpaceLocation?
+  magicLinkTokens SpaceMagicLinkToken[]
+  sentInvites     SpaceInvite[]         @relation("SpaceInviteInviter")
+  accessAnswers   SpaceAccessAnswer[]
+
+  @@unique([spaceId, email])
+}
+
+// One pin per participant (docs/SPEC.md section 1) - a 1:1 with SpaceParticipant
+// rather than a list, so "one entry per participant" is enforced by the
+// schema itself, not application logic.
+model SpaceLocation {
+  id            String   @id @default(uuid())
+  spaceId       String
+  space         Space    @relation(fields: [spaceId], references: [id])
+  participantId String   @unique
+  participant   SpaceParticipant @relation(fields: [participantId], references: [id])
+  label         String
+  note          String
+  lat           Float
+  lng           Float
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([spaceId])
+}
+
+model SpaceMagicLinkToken {
+  id            String    @id @default(uuid())
+  tokenHash     String    @unique
+  participantId String
+  participant   SpaceParticipant @relation(fields: [participantId], references: [id])
+  expiresAt     DateTime
+  usedAt        DateTime?
+  createdAt     DateTime  @default(now())
+}
+
+// A single-use, revocable invite token - separate from SpaceMagicLinkToken
+// (which is only ever issued to an *existing* participant to sign back in).
+// Accepting one is what creates the SpaceParticipant row in the first place;
+// there's no other path to a participant/visitor account (section 2: "NO
+// public access").
+model SpaceInvite {
+  id                    String    @id @default(uuid())
+  spaceId               String
+  space                 Space     @relation(fields: [spaceId], references: [id])
+  email                 String
+  role                  SpaceRole
+  tokenHash             String    @unique
+  inviterParticipantId  String
+  inviter               SpaceParticipant @relation("SpaceInviteInviter", fields: [inviterParticipantId], references: [id])
+  expiresAt             DateTime
+  usedAt                DateTime?
+  revokedAt             DateTime?
+  // Set when the inviter deletes a revoked or expired invite: `email` is
+  // erased ("") and the invite drops out of their list, but the row stays so
+  // it still counts toward the inviter's rate limit and lifetime cap.
+  deletedAt             DateTime?
+  createdAt             DateTime  @default(now())
+
+  accessAnswers         SpaceAccessAnswer[]
+
+  @@index([spaceId])
+  @@index([email])
+  @@index([inviterParticipantId])
+}
+
+// Someone without an invite asking to join. Any participant can allow it
+// (which sends a normal SpaceInvite from them, then deletes this row) or deny
+// it (deletes this row, nothing is sent). Unanswered requests go with
+// everything else at EVENT_END_AT.
+model SpaceAccessRequest {
+  id            String   @id @default(uuid())
+  spaceId       String
+  space         Space    @relation(fields: [spaceId], references: [id])
+  email         String
+  message       String
+  // Which privacy notice the requester agreed to; createdAt is when.
+  noticeVersion String
+  // The language they asked in; their invite is written in it.
+  language      String   @default("de")
+  createdAt     DateTime @default(now())
+
+  @@unique([spaceId, email])
+}
+
+// What became of a request to join once a participant answered it, so the
+// others see for a day that it was handled (and, if allowed, whether the
+// invite has been used). Holds nothing about the person who asked: no email,
+// no note. Both links are cleared, not cascaded, when the participant or the
+// invite is deleted.
+model SpaceAccessAnswer {
+  id           String            @id @default(uuid())
+  spaceId      String
+  space        Space             @relation(fields: [spaceId], references: [id])
+  // "allowed" or "denied"
+  outcome      String
+  answeredById String?
+  answeredBy   SpaceParticipant? @relation(fields: [answeredById], references: [id], onDelete: SetNull)
+  inviteId     String?
+  invite       SpaceInvite?      @relation(fields: [inviteId], references: [id], onDelete: SetNull)
+  createdAt    DateTime          @default(now())
+
+  @@index([spaceId, createdAt])
+}

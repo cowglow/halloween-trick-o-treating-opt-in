@@ -1,0 +1,118 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Tests
+    # Pinned rather than ubuntu-latest, so the runner image only changes when
+    # we change it (GitHub moved ubuntu-latest to 26.04 on 2026-10-19). Same
+    # pin in every workflow.
+    runs-on: ubuntu-26.04
+    # Pushes the test report to the gh-pages branch; the default token is read-only.
+    permissions:
+      contents: write
+    # deploy.yml's deploy_client job also publishes to the gh-pages branch (the app
+    # itself); scoping concurrency to just these two jobs (not the whole workflows)
+    # serializes their pushes to gh-pages without slowing down anything else.
+    concurrency:
+      group: gh-pages-publish
+      cancel-in-progress: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Install frontend dependencies
+        run: pnpm install
+
+      - name: Install backend dependencies
+        run: cd backend && pnpm install
+
+      # Prisma 7 no longer generates its client on install; the backend unit
+      # tests import it (the Docker image generates its own).
+      - name: Generate the Prisma client
+        run: cd backend && pnpm prisma:generate
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Start backend (Postgres + API)
+        run: docker compose up -d db api
+
+      - name: Run database migrations
+        run: docker compose exec -T api pnpm prisma:deploy
+
+      - name: Seed the Meckenhausen space and its first participant
+        run: docker compose exec -T api sh -c "SEED_SPACE_PARTICIPANT_EMAIL=participant@example.test pnpm seed:space"
+
+      - name: Run frontend unit tests
+        id: frontend-unit
+        continue-on-error: true
+        run: pnpm exec vitest run --coverage
+
+      - name: Run backend unit tests
+        id: backend-unit
+        continue-on-error: true
+        run: cd backend && pnpm exec vitest run --coverage
+
+      - name: Run e2e tests
+        id: e2e
+        continue-on-error: true
+        env:
+          CI: true
+        run: E2E_SPACE_SEED_EMAIL=participant@example.test pnpm test:e2e
+
+      - name: Run the project site's e2e tests
+        id: e2e-site
+        continue-on-error: true
+        env:
+          CI: true
+        run: pnpm test:e2e:site
+
+      # Runs even if a suite above failed, so the report always reflects the actual
+      # (possibly failing) run instead of silently disappearing when it's most needed.
+      - name: Assemble combined test report
+        if: always()
+        run: |
+          mkdir -p test-report/unit-frontend test-report/unit-backend
+          [ -d coverage ] && mv coverage test-report/unit-frontend/coverage
+          [ -d backend/coverage ] && mv backend/coverage test-report/unit-backend/coverage
+          cat > test-report/index.html << HTML
+          <!doctype html>
+          <html>
+          <head><meta charset="utf-8"><title>Halloween Map — Test Report</title></head>
+          <body style="font-family: sans-serif; max-width: 40rem; margin: 3rem auto;">
+            <h1>Test Report</h1>
+            <p>Commit ${{ github.sha }} — ${{ github.event.head_commit.timestamp }}</p>
+            <ul>
+              <li><a href="./unit-frontend/coverage/">Frontend unit test coverage</a></li>
+              <li><a href="./unit-backend/coverage/">Backend unit test coverage</a></li>
+            </ul>
+          </body>
+          </html>
+          HTML
+          # The README's Tests badge (the repo is private, so GitHub's own
+          # workflow badge doesn't load); published with the report below.
+          if [ "${{ steps.frontend-unit.outcome }}" = "success" ] && [ "${{ steps.backend-unit.outcome }}" = "success" ] && [ "${{ steps.e2e.outcome }}" = "success" ] && [ "${{ steps.e2e-site.outcome }}" = "success" ]; then
+            scripts/status-badge.sh "Tests" "passing" ok test-report/tests-badge.svg
+          else
+            scripts/status-badge.sh "Tests" "failing" fail test-report/tests-badge.svg
+          fi
+
+      - name: Publish test report to GitHub Pages
+        if: always()
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: test-report
+          target-folder: test-report
+
+      - name: Fail the job if any test suite failed
+        if: steps.frontend-unit.outcome == 'failure' || steps.backend-unit.outcome == 'failure' || steps.e2e.outcome == 'failure' || steps.e2e-site.outcome == 'failure'
+        run: exit 1

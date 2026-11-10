@@ -1,0 +1,50 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+.pnpm-store
+dist
+dist-ssr
+*.local
+.env
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+*storybook.log
+storybook-static
+cert/
+
+# Hetzner provisioning config/output — see deploy/hetzner/config.env.example
+deploy/hetzner/config.env
+deploy/hetzner/user-data.yml
+.mcp.json
+
+# Playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/
+
+# Test coverage output (now that vitest.config.ts's coverage.include is fixed to
+# actually measure source files, this generates a full nested report, not just a
+# handful of top-level files)
+coverage/
+backend/coverage/
+
+# Combined test report assembled in CI (unit coverage + e2e), published to
+# gh-pages/test-report/ — see .github/workflows/test.yml
+/test-report/

@@ -1,0 +1,23 @@
+{
+  "name": "Meckenhausen",
+  "slug": "meckenhausen",
+  "organizer": "Philip",
+  "hostingProvider": "Hetzner",
+  "timeZone": "Europe/Berlin",
+  "eventEndAt": "2026-11-01T00:00:00+01:00",
+  "defaultLanguage": "de",
+  "map": {
+    "center": {
+      "lat": 49.1718269,
+      "lng": 11.2890778
+    },
+    "boundary": [
+      [11.2690778, 49.1518269],
+      [11.3090778, 49.1518269],
+      [11.3090778, 49.1918269],
+      [11.2690778, 49.1918269],
+      [11.2690778, 49.1518269]
+    ],
+    "tiles": "meckenhausen-v1.pmtiles"
+  }
+}

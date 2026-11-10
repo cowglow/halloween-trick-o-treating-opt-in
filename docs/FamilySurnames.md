@@ -1,0 +1,20 @@
+Familie Karloff
+Familie Lanchester
+Familie Lorre
+Familie Lugosi
+Familie Munster
+Familie Price
+Familie Radcliffe
+Familie Sanderson
+Familie Shelley
+Familie Skellington
+Familie Spellman
+Familie Stoker
+Familie Van Helsing
+Familie Wonka
+Familie Addams
+Familie Bates
+Familie Beetlejuice
+Familie Crumble
+Familie Deetz
+Familie Gribble

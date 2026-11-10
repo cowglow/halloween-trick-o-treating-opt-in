@@ -1,0 +1,98 @@
+name: Publish Site
+
+# Deploys automatically once the Tests workflow (test.yml) has passed on a push
+# to main, and only then: a red build never goes live. It deploys exactly the
+# commit that was tested. Can also be started by hand (workflow_dispatch).
+#
+# It publishes to GitHub Pages one of two builds, chosen by repository
+# variables:
+#   - the map app, for a community running it (docs/SELF_HOSTING.md), when
+#     MAP_API_URL (the API, e.g. https://halloween-api.example.org) and
+#     MAP_DOMAIN (the app's own domain, e.g. halloween.example.org; the app
+#     must be at the root of a domain) are set;
+#   - otherwise the project site (a VITE_SITE=true build: the documentation,
+#     the in-browser demo and the share page) at
+#     https://<owner>.github.io/<repo>/.
+# Both need PRIVACY_CONTROLLER_NAME and PRIVACY_CONTROLLER_CONTACT, shown on
+# the privacy notice.
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [Tests]
+    types: [completed]
+    branches: [main]
+
+# One deploy at a time; a newer one waits instead of interrupting a half-done
+# server restart.
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy_client:
+    name: Build and Deploy Client
+    runs-on: ubuntu-26.04
+    # Pushes the site to the gh-pages branch; the default token is read-only.
+    permissions:
+      contents: write
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    # test.yml's test job also publishes to the gh-pages branch (the test report,
+    # under test-report/); this shared group serializes the two so their pushes to
+    # gh-pages never race each other. See test.yml for the other half.
+    concurrency:
+      group: gh-pages-publish
+      cancel-in-progress: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          # The commit Tests ran on (a workflow_run otherwise checks out the
+          # newest main, which may not have been tested yet).
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Require the privacy notice controller
+        env:
+          NAME: ${{ vars.PRIVACY_CONTROLLER_NAME }}
+          CONTACT: ${{ vars.PRIVACY_CONTROLLER_CONTACT }}
+        run: |
+          test -n "$NAME" && test -n "$CONTACT" || {
+            echo "Set the PRIVACY_CONTROLLER_NAME and PRIVACY_CONTROLLER_CONTACT repository variables first"; exit 1; }
+
+      - name: Build
+        run: |
+          if [ -n "$MAP_API_URL" ]; then
+            test -n "$MAP_DOMAIN" || { echo "The map app needs its own domain: set the MAP_DOMAIN variable too"; exit 1; }
+            VITE_API_URL="$MAP_API_URL" pnpm run build
+            echo "$MAP_DOMAIN" > dist/CNAME
+          else
+            # Served from the repository's GitHub Pages path, /<repo>/.
+            pnpm exec tsc && VITE_BASE="/${GITHUB_REPOSITORY#*/}/" pnpm run build:site
+          fi
+        env:
+          MAP_API_URL: ${{ vars.MAP_API_URL }}
+          MAP_DOMAIN: ${{ vars.MAP_DOMAIN }}
+          VITE_PRIVACY_CONTROLLER_NAME: ${{ vars.PRIVACY_CONTROLLER_NAME }}
+          VITE_PRIVACY_CONTROLLER_CONTACT: ${{ vars.PRIVACY_CONTROLLER_CONTACT }}
+
+      # The README's badge, as a static SVG on the site (the repo is private,
+      # so GitHub's own workflow badges don't load). This step only runs if
+      # the build passed. tests-badge.svg comes from test.yml.
+      - name: Generate status badge
+        run: scripts/status-badge.sh "Publish Site" "passing" ok dist/deploy-badge.svg
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist/
+          # Without this, the app's own clean deploy (there's no target-folder here,
+          # so it cleans the whole branch root) would delete test.yml's test-report/
+          # subfolder on every app deploy.
+          clean-exclude: |
+            test-report

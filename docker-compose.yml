@@ -1,0 +1,89 @@
+name: halloween-map
+
+services:
+  frontend:
+    container_name: halloween-map-dev
+    # Optional containerized dev shell (`pnpm docker:dev`), not part of a plain
+    # `docker compose up`: it binds :3000, the same port as a host `pnpm dev`.
+    profiles: ["frontend"]
+    working_dir: /app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+      - "4173:4173"
+    volumes:
+      - ./:/app/
+      - /app/node_modules # anonymous volume: keeps container-installed (Linux) deps
+      # from overwriting the host's own node_modules through the bind mount above
+    stdin_open: true
+    tty: true
+
+  db:
+    image: postgres:16
+    container_name: halloween-map-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-app}
+      POSTGRES_DB: ${POSTGRES_DB:-contact_book}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-app} -d ${POSTGRES_DB:-contact_book}"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
+
+  api:
+    container_name: halloween-map-api
+    restart: unless-stopped
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    working_dir: /app
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-app}:${POSTGRES_PASSWORD:-app}@db:5432/${POSTGRES_DB:-contact_book}
+      SPACE_JWT_SECRET: ${SPACE_JWT_SECRET:-dev-space-secret-change-me}
+      PORT: 4000
+      # https, not http — the frontend's own vite.config.ts always serves over TLS
+      # (vite-plugin-basic-ssl), so this must match or the browser's CORS check
+      # silently blocks every request from the real dev server.
+      CLIENT_ORIGIN: ${CLIENT_ORIGIN:-https://localhost:3000}
+      # Overrides the image's baked-in `ENV NODE_ENV=production` (backend/Dockerfile) so
+      # this dev/e2e stack actually behaves like dev: magic links log to the console
+      # instead of going through Resend. Set NODE_ENV=production before `docker compose
+      # up` to test real Resend delivery locally (see RESEND_API_KEY/EMAIL_FROM below).
+      NODE_ENV: ${NODE_ENV:-development}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      EMAIL_FROM: ${EMAIL_FROM:-}
+      # Far in the future for this dev/e2e stack: after the real event end
+      # (the backend's default) every request would get a 410. Matches
+      # E2E_EVENT_END_AT in e2e/spaces/helpers.ts.
+      EVENT_END_AT: ${EVENT_END_AT:-2099-11-01T00:00:00+01:00}
+      # community/community.json, mounted below (it's outside the image's
+      # build context, backend/).
+      COMMUNITY_CONFIG: /app/community/community.json
+    volumes:
+      - ./community:/app/community:ro
+    depends_on:
+      db:
+        condition: service_healthy
+
+  adminer:
+    image: adminer
+    container_name: halloween-map-adminer
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres-data:

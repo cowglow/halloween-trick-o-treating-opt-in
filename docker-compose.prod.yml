@@ -1,0 +1,81 @@
+name: halloween-map
+
+# docs/SPEC.md section 3's access-log retention check (docs/WORKLOG.md, 2026-09-21):
+# none of these three services set a logging driver, so their stdout - under
+# Docker's default json-file driver - has no size or retention limit and
+# accumulates forever. `x-logging` below caps that for all three (Caddy's own
+# access log gets its own explicit file-based retention too - see Caddyfile).
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "7"
+
+services:
+  db:
+    image: postgres:16
+    container_name: halloween-map-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging: *default-logging
+
+  api:
+    # Built on the server from this checkout (docs/SELF_HOSTING.md):
+    # `docker compose -f docker-compose.prod.yml up -d --build`.
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: halloween-map-api
+    container_name: halloween-map-api
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      SPACE_JWT_SECRET: ${SPACE_JWT_SECRET}
+      PORT: 4000
+      CLIENT_ORIGIN: ${CLIENT_ORIGIN}
+      # Empty means community.json's eventEndAt.
+      EVENT_END_AT: ${EVENT_END_AT:-}
+      NODE_ENV: production
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      EMAIL_FROM: ${EMAIL_FROM}
+      # Reply-To of the thank-you email (thank-space.ts, run by cron).
+      THANK_YOU_REPLY_TO: ${THANK_YOU_REPLY_TO:-}
+      # community/community.json, copied next to this file on the server.
+      COMMUNITY_CONFIG: /app/community/community.json
+    volumes:
+      - ./community:/app/community:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    logging: *default-logging
+
+  caddy:
+    image: caddy:2
+    container_name: halloween-map-caddy
+    restart: unless-stopped
+    environment:
+      # The Caddyfile's site address (deploy.yml writes it into .env).
+      API_DOMAIN: ${API_DOMAIN:?Set API_DOMAIN}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy-data:/data
+    depends_on:
+      - api
+    logging: *default-logging
+
+volumes:
+  postgres-data:
+  caddy-data:

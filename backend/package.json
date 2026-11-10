@@ -1,0 +1,56 @@
+{
+  "name": "halloween-map-api",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "seed:space": "tsx prisma/seed-space.ts",
+    "purge:space": "tsx prisma/purge-space.ts",
+    "erase:participant": "tsx prisma/erase-participant.ts",
+    "thank:space": "tsx prisma/thank-space.ts",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@prisma/adapter-pg": "7.10.1",
+    "@prisma/client": "^7.10.1",
+    "cors": "^2.8.5",
+    "dotenv": "^18.0.9",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "helmet": "^8.3.0",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^7.10.1",
+    "resend": "^6.34.1",
+    "tsx": "^4.23.15",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.12",
+    "@electric-sql/pglite-socket": "^0.2.15",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.20.0",
+    "@vitest/coverage-v8": "^5.0.5",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  },
+  "packageManager": "pnpm@9.15.1+sha512.1acb565e6193efbebda772702950469150cf12bcc764262e7587e71d19dc98a423dff9536e57ea44c49bdf790ff694e83c27be5faa23d67e0c033b583be4bfcf",
+  "pnpm": {
+    "overrides": {
+      "body-parser": "1.20.6",
+      "brace-expansion@>=2.0.0 <2.1.4": "2.1.4",
+      "brace-expansion@>=5.0.0 <5.0.9": "5.0.9",
+      "postcss": "8.5.23",
+      "nanoid": "3.3.19",
+      "qs": "6.16.0",
+      "deepmerge-ts": "8.0.0"
+    }
+  }
+}

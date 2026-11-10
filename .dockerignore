@@ -1,0 +1,9 @@
+node_modules
+dist
+coverage
+test-results
+.git
+.idea
+.storybook-static
+*.log
+server/node_modules

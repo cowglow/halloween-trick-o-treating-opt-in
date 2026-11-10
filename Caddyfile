@@ -1,0 +1,22 @@
+# The API host name, from the API_DOMAIN repository variable via
+# docker-compose.prod.yml (see .github/workflows/deploy.yml).
+{$API_DOMAIN} {
+	reverse_proxy api:4000
+
+	# docs/SPEC.md section 3: "Check the existing server and nginx config for
+	# access-log retention and document it (aim for 7 days or less)." Checked
+	# (docs/WORKLOG.md, 2026-09-21): there was no `log` directive here at all
+	# before this - Caddy's default access log (which includes each request's
+	# remote IP) still writes to stdout with no rotation or retention limit,
+	# and docker-compose.prod.yml's `caddy` service sets no logging driver
+	# options either, so those stdout logs accumulate on disk indefinitely
+	# under Docker's default json-file driver. This makes the retention
+	# explicit and short: seven daily files, then delete.
+	log {
+		output file /data/access.log {
+			roll_size 10mb
+			roll_keep 7
+			roll_keep_for 168h
+		}
+	}
+}

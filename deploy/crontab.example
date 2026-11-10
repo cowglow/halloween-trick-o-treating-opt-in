@@ -1,0 +1,8 @@
+# The two cron jobs for the end of the event (docs/SELF_HOSTING.md). Install
+# them for the user that runs the app, with the app in /opt/halloween-map:
+#   crontab deploy/crontab.example
+# Both check the time themselves, so they can run all year: the thank-you
+# email goes out from 15 minutes before the event end, the teardown one
+# minute after it, and the teardown then removes both lines.
+*/5 * * * * cd /opt/halloween-map && flock -n /tmp/halloween-thank.lock sh deploy/thank-you.sh >> thank-you.log 2>&1 # halloween-thank-you
+* * * * * cd /opt/halloween-map && flock -n /tmp/halloween-teardown.lock sh deploy/teardown.sh >> teardown.log 2>&1 # halloween-teardown

@@ -1,0 +1,32 @@
+#cloud-config
+# Passed to Hetzner at server creation (hcloud server create --user-data-from-file,
+# or pasted into the Console's "Cloud config" field) to replace the manual
+# "initial server setup" SSH session in docs/HETZNER_DEPLOY.md step 3: it creates
+# the `deploy` user (with the same two keys added to the project in step 1),
+# installs Docker, and hands `deploy` passwordless sudo + docker group membership.
+#
+# Render this template first — do not paste it with the placeholders still in it:
+#   sed -e "s#\${CI_PUBLIC_KEY}#$(cat cert/id_hetzner.pub)#" \
+#       -e "s#\${ADMIN_PUBLIC_KEY}#$(cat cert/id_hetzner_admin.pub)#" \
+#       deploy/hetzner/user-data.yml.tmpl > deploy/hetzner/user-data.yml
+#
+# `- default` keeps Hetzner's own key injection for root (from the "SSH keys"
+# selected during server creation) — cloud-init's `users` list REPLACES the
+# default user entirely if you omit it, which would leave root with no key at all.
+users:
+  - default
+  - name: deploy
+    groups: [sudo]
+    shell: /bin/bash
+    sudo: ["ALL=(ALL) NOPASSWD:ALL"]
+    ssh_authorized_keys:
+      - ${CI_PUBLIC_KEY}
+      - ${ADMIN_PUBLIC_KEY}
+
+package_update: true
+
+runcmd:
+  - curl -fsSL https://get.docker.com | sh
+  - usermod -aG docker deploy
+  - mkdir -p /opt/halloween-map
+  - chown deploy:deploy /opt/halloween-map
