@@ -5,8 +5,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## What this is
 
 An invite-only Halloween trick-or-treat map for one community, made for
-Meckenhausen (Hilpoltstein, Bavaria) in 2026 and being turned into a kit any
-community can run: participants place one pin at their front door with a label
+Meckenhausen (Hilpoltstein, Bavaria) in 2026 (12 houses on the map) and now an
+open-source (MIT) kit any community can run: participants place one pin at their front door with a label
 and note, invited visitors see a read-only map, and all data is gone after the
 event (`EVENT_END_AT`). Everything community-specific (name, slug, organizer,
 time zone, event end, default email language, map center, boundary, tiles
@@ -20,21 +20,30 @@ The architectural style is Joschi Kuphal's [Clear Architecture](https://github.c
 as adapted for both `frontend/` and `backend/` in `docs/CLEAR_ARCHITECTURE_TS.md`
 (that companion doc is the accurate reference, not the upstream conventions).
 
-Two independently deployable pieces:
+Two independently deployable pieces, and one more build:
 
 - **`frontend/`**: React + TypeScript + Vite static site (`index.html` →
-  `frontend/spaces-main.tsx`), served at `base` (`/`, on its own domain `halloween.cowglow.io` via
-  `public/CNAME`, in `vite.config.ts`, mirrored by `CLIENT_APP_PATH` in the backend's
-  composition root and the manifest). Talks to the backend only through its REST
-  API at the build-time `VITE_API_URL`.
+  `frontend/spaces-main.tsx`). Two builds from the same code:
+  - the **map app**, served at the root of its own domain (base `/`, mirrored
+    by `CLIENT_APP_PATH` in the backend's composition root). Talks to the
+    backend only through its REST API at the build-time `VITE_API_URL`.
+  - the **project site** (`VITE_SITE=true`, `SiteApp`): the project's story,
+    an in-browser demo (nothing sent anywhere), the share page and the
+    example privacy notice. No API, no service worker. Live at
+    https://cowglow.github.io/halloween-trick-o-treating-opt-in/
+    (`VITE_BASE=/halloween-trick-o-treating-opt-in/`).
 - **`backend/`**: Node/Express + Prisma + Postgres, a separate package (own
-  `package.json`/`pnpm-lock.yaml`). Live on a Hetzner server at
-  `halloween-api.cowglow.io` (the `API_DOMAIN` repository variable); deploys
-  run from `.github/workflows/deploy.yml` **automatically after the Tests
-  workflow passes on `main`, so pushing to `main` is deploying** (see
-  `TASK.md`, `docs/HETZNER_DEPLOY.md`). Don't push to `main`, deploy, touch
-  Hetzner, or apply migrations to a non-local database unless Philip asks for
-  it explicitly.
+  `package.json`/`pnpm-lock.yaml`). Runs with `docker-compose.prod.yml`
+  (API + Postgres + Caddy) on any server; `docs/SELF_HOSTING.md` is the guide,
+  `deploy/` holds the env template and the end-of-event cron jobs. No API is
+  running since the 2026 event ended (`docs/HETZNER_DEPLOY.md` is that
+  setup's record).
+
+`.github/workflows/deploy.yml` runs **automatically after the Tests workflow
+passes on `main`, so pushing to `main` is deploying**: it publishes the map
+app when the `MAP_API_URL` and `MAP_DOMAIN` repository variables are set, the
+project site otherwise (today). Don't push to `main`, deploy, or apply
+migrations to a non-local database unless Philip asks for it explicitly.
 
 ## Commands
 
@@ -44,6 +53,10 @@ Frontend (repo root):
 pnpm dev                              # vite over HTTPS on :3000 (mkcert, see docs/DEV-HTTPS.md)
 pnpm dev:up                           # backend up (rebuilt from current code, migrated) + dev server
 pnpm dev:lan                          # dev server with the API proxied at /api, for phones (docs/DEV-HTTPS.md)
+pnpm dev:site                         # the project site instead of the map app
+pnpm build:site                       # build the project site
+pnpm test:e2e:site                    # Playwright, e2e/site (no backend needed)
+pnpm images:whatsapp -- --url halloween.example.org   # re-render the WhatsApp images
 pnpm build                            # tsc && vite build
 pnpm lint                             # eslint frontend e2e --max-warnings 0
 pnpm test                             # vitest --coverage
@@ -99,9 +112,12 @@ run against a real frontend + real backend + real Postgres, single-worker; see
   `tile-server/space-map-style.ts` (the MapLibre style over the self-hosted
   `.pmtiles`, glyphs and sprite).
 - **`ports/`**: `pages/space/` (invite landing, welcome, sign-in, the map
-  home with its menu sheet, the two "add my house" steps, dialogs, privacy
-  notice, "Let your neighbors know" with the WhatsApp images from
-  `public/whatsapp/`, language picker), `context/i18n/` + `i18n/translations/` (en, de,
+  home with its menu sheet, the rules dialog, the two "add my house" steps
+  (tap the map, then nudge), dialogs, privacy notice, "Let your neighbors
+  know" with the WhatsApp images from `public/whatsapp/`, language picker,
+  `ClosedPage` after the event end), `pages/site/` (the project site: home,
+  demo, share page; links to other sites go through `ExternalLink`, new
+  window, `rel="noopener nofollow"`, checked by `external-links.test.ts`), `context/i18n/` + `i18n/translations/` (en, de,
   es; new text needs all three). The language starts as the browser's
   (`i18n/detect-language.ts`) until someone picks one; the UI never shows the
   API's English `error` texts (`pages/space/api-error-message.ts`).
