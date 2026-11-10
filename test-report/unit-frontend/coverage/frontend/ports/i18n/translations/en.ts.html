@@ -1,0 +1,1117 @@
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Code coverage report for frontend/ports/i18n/translations/en.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+    
+<body>
+<div class='wrapper'>
+    <div class='pad1'>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">frontend/ports/i18n/translations</a> en.ts</h1>
+        <div class='clearfix'>
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">27.27% </span>
+                <span class="quiet">Statements</span>
+                <span class='fraction'>6/22</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">0% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>0/12</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">23.8% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>5/21</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">27.27% </span>
+                <span class="quiet">Lines</span>
+                <span class='fraction'>6/22</span>
+            </div>
+        
+            
+        </div>
+        <p class="quiet">
+            Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
+        </p>
+        <template id="filterTemplate">
+            <div class="quiet">
+                Filter:
+                <input type="search" id="fileSearch">
+            </div>
+        </template>
+    </div>
+    <div class='status-line low'></div>
+    <pre><table class="coverage">
+<tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
+<a name='L2'></a><a href='#L2'>2</a>
+<a name='L3'></a><a href='#L3'>3</a>
+<a name='L4'></a><a href='#L4'>4</a>
+<a name='L5'></a><a href='#L5'>5</a>
+<a name='L6'></a><a href='#L6'>6</a>
+<a name='L7'></a><a href='#L7'>7</a>
+<a name='L8'></a><a href='#L8'>8</a>
+<a name='L9'></a><a href='#L9'>9</a>
+<a name='L10'></a><a href='#L10'>10</a>
+<a name='L11'></a><a href='#L11'>11</a>
+<a name='L12'></a><a href='#L12'>12</a>
+<a name='L13'></a><a href='#L13'>13</a>
+<a name='L14'></a><a href='#L14'>14</a>
+<a name='L15'></a><a href='#L15'>15</a>
+<a name='L16'></a><a href='#L16'>16</a>
+<a name='L17'></a><a href='#L17'>17</a>
+<a name='L18'></a><a href='#L18'>18</a>
+<a name='L19'></a><a href='#L19'>19</a>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a>
+<a name='L22'></a><a href='#L22'>22</a>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a>
+<a name='L35'></a><a href='#L35'>35</a>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a>
+<a name='L38'></a><a href='#L38'>38</a>
+<a name='L39'></a><a href='#L39'>39</a>
+<a name='L40'></a><a href='#L40'>40</a>
+<a name='L41'></a><a href='#L41'>41</a>
+<a name='L42'></a><a href='#L42'>42</a>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a>
+<a name='L55'></a><a href='#L55'>55</a>
+<a name='L56'></a><a href='#L56'>56</a>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a>
+<a name='L77'></a><a href='#L77'>77</a>
+<a name='L78'></a><a href='#L78'>78</a>
+<a name='L79'></a><a href='#L79'>79</a>
+<a name='L80'></a><a href='#L80'>80</a>
+<a name='L81'></a><a href='#L81'>81</a>
+<a name='L82'></a><a href='#L82'>82</a>
+<a name='L83'></a><a href='#L83'>83</a>
+<a name='L84'></a><a href='#L84'>84</a>
+<a name='L85'></a><a href='#L85'>85</a>
+<a name='L86'></a><a href='#L86'>86</a>
+<a name='L87'></a><a href='#L87'>87</a>
+<a name='L88'></a><a href='#L88'>88</a>
+<a name='L89'></a><a href='#L89'>89</a>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a>
+<a name='L113'></a><a href='#L113'>113</a>
+<a name='L114'></a><a href='#L114'>114</a>
+<a name='L115'></a><a href='#L115'>115</a>
+<a name='L116'></a><a href='#L116'>116</a>
+<a name='L117'></a><a href='#L117'>117</a>
+<a name='L118'></a><a href='#L118'>118</a>
+<a name='L119'></a><a href='#L119'>119</a>
+<a name='L120'></a><a href='#L120'>120</a>
+<a name='L121'></a><a href='#L121'>121</a>
+<a name='L122'></a><a href='#L122'>122</a>
+<a name='L123'></a><a href='#L123'>123</a>
+<a name='L124'></a><a href='#L124'>124</a>
+<a name='L125'></a><a href='#L125'>125</a>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a>
+<a name='L133'></a><a href='#L133'>133</a>
+<a name='L134'></a><a href='#L134'>134</a>
+<a name='L135'></a><a href='#L135'>135</a>
+<a name='L136'></a><a href='#L136'>136</a>
+<a name='L137'></a><a href='#L137'>137</a>
+<a name='L138'></a><a href='#L138'>138</a>
+<a name='L139'></a><a href='#L139'>139</a>
+<a name='L140'></a><a href='#L140'>140</a>
+<a name='L141'></a><a href='#L141'>141</a>
+<a name='L142'></a><a href='#L142'>142</a>
+<a name='L143'></a><a href='#L143'>143</a>
+<a name='L144'></a><a href='#L144'>144</a>
+<a name='L145'></a><a href='#L145'>145</a>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a>
+<a name='L157'></a><a href='#L157'>157</a>
+<a name='L158'></a><a href='#L158'>158</a>
+<a name='L159'></a><a href='#L159'>159</a>
+<a name='L160'></a><a href='#L160'>160</a>
+<a name='L161'></a><a href='#L161'>161</a>
+<a name='L162'></a><a href='#L162'>162</a>
+<a name='L163'></a><a href='#L163'>163</a>
+<a name='L164'></a><a href='#L164'>164</a>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a>
+<a name='L176'></a><a href='#L176'>176</a>
+<a name='L177'></a><a href='#L177'>177</a>
+<a name='L178'></a><a href='#L178'>178</a>
+<a name='L179'></a><a href='#L179'>179</a>
+<a name='L180'></a><a href='#L180'>180</a>
+<a name='L181'></a><a href='#L181'>181</a>
+<a name='L182'></a><a href='#L182'>182</a>
+<a name='L183'></a><a href='#L183'>183</a>
+<a name='L184'></a><a href='#L184'>184</a>
+<a name='L185'></a><a href='#L185'>185</a>
+<a name='L186'></a><a href='#L186'>186</a>
+<a name='L187'></a><a href='#L187'>187</a>
+<a name='L188'></a><a href='#L188'>188</a>
+<a name='L189'></a><a href='#L189'>189</a>
+<a name='L190'></a><a href='#L190'>190</a>
+<a name='L191'></a><a href='#L191'>191</a>
+<a name='L192'></a><a href='#L192'>192</a>
+<a name='L193'></a><a href='#L193'>193</a>
+<a name='L194'></a><a href='#L194'>194</a>
+<a name='L195'></a><a href='#L195'>195</a>
+<a name='L196'></a><a href='#L196'>196</a>
+<a name='L197'></a><a href='#L197'>197</a>
+<a name='L198'></a><a href='#L198'>198</a>
+<a name='L199'></a><a href='#L199'>199</a>
+<a name='L200'></a><a href='#L200'>200</a>
+<a name='L201'></a><a href='#L201'>201</a>
+<a name='L202'></a><a href='#L202'>202</a>
+<a name='L203'></a><a href='#L203'>203</a>
+<a name='L204'></a><a href='#L204'>204</a>
+<a name='L205'></a><a href='#L205'>205</a>
+<a name='L206'></a><a href='#L206'>206</a>
+<a name='L207'></a><a href='#L207'>207</a>
+<a name='L208'></a><a href='#L208'>208</a>
+<a name='L209'></a><a href='#L209'>209</a>
+<a name='L210'></a><a href='#L210'>210</a>
+<a name='L211'></a><a href='#L211'>211</a>
+<a name='L212'></a><a href='#L212'>212</a>
+<a name='L213'></a><a href='#L213'>213</a>
+<a name='L214'></a><a href='#L214'>214</a>
+<a name='L215'></a><a href='#L215'>215</a>
+<a name='L216'></a><a href='#L216'>216</a>
+<a name='L217'></a><a href='#L217'>217</a>
+<a name='L218'></a><a href='#L218'>218</a>
+<a name='L219'></a><a href='#L219'>219</a>
+<a name='L220'></a><a href='#L220'>220</a>
+<a name='L221'></a><a href='#L221'>221</a>
+<a name='L222'></a><a href='#L222'>222</a>
+<a name='L223'></a><a href='#L223'>223</a>
+<a name='L224'></a><a href='#L224'>224</a>
+<a name='L225'></a><a href='#L225'>225</a>
+<a name='L226'></a><a href='#L226'>226</a>
+<a name='L227'></a><a href='#L227'>227</a>
+<a name='L228'></a><a href='#L228'>228</a>
+<a name='L229'></a><a href='#L229'>229</a>
+<a name='L230'></a><a href='#L230'>230</a>
+<a name='L231'></a><a href='#L231'>231</a>
+<a name='L232'></a><a href='#L232'>232</a>
+<a name='L233'></a><a href='#L233'>233</a>
+<a name='L234'></a><a href='#L234'>234</a>
+<a name='L235'></a><a href='#L235'>235</a>
+<a name='L236'></a><a href='#L236'>236</a>
+<a name='L237'></a><a href='#L237'>237</a>
+<a name='L238'></a><a href='#L238'>238</a>
+<a name='L239'></a><a href='#L239'>239</a>
+<a name='L240'></a><a href='#L240'>240</a>
+<a name='L241'></a><a href='#L241'>241</a>
+<a name='L242'></a><a href='#L242'>242</a>
+<a name='L243'></a><a href='#L243'>243</a>
+<a name='L244'></a><a href='#L244'>244</a>
+<a name='L245'></a><a href='#L245'>245</a>
+<a name='L246'></a><a href='#L246'>246</a>
+<a name='L247'></a><a href='#L247'>247</a>
+<a name='L248'></a><a href='#L248'>248</a>
+<a name='L249'></a><a href='#L249'>249</a>
+<a name='L250'></a><a href='#L250'>250</a>
+<a name='L251'></a><a href='#L251'>251</a>
+<a name='L252'></a><a href='#L252'>252</a>
+<a name='L253'></a><a href='#L253'>253</a>
+<a name='L254'></a><a href='#L254'>254</a>
+<a name='L255'></a><a href='#L255'>255</a>
+<a name='L256'></a><a href='#L256'>256</a>
+<a name='L257'></a><a href='#L257'>257</a>
+<a name='L258'></a><a href='#L258'>258</a>
+<a name='L259'></a><a href='#L259'>259</a>
+<a name='L260'></a><a href='#L260'>260</a>
+<a name='L261'></a><a href='#L261'>261</a>
+<a name='L262'></a><a href='#L262'>262</a>
+<a name='L263'></a><a href='#L263'>263</a>
+<a name='L264'></a><a href='#L264'>264</a>
+<a name='L265'></a><a href='#L265'>265</a>
+<a name='L266'></a><a href='#L266'>266</a>
+<a name='L267'></a><a href='#L267'>267</a>
+<a name='L268'></a><a href='#L268'>268</a>
+<a name='L269'></a><a href='#L269'>269</a>
+<a name='L270'></a><a href='#L270'>270</a>
+<a name='L271'></a><a href='#L271'>271</a>
+<a name='L272'></a><a href='#L272'>272</a>
+<a name='L273'></a><a href='#L273'>273</a>
+<a name='L274'></a><a href='#L274'>274</a>
+<a name='L275'></a><a href='#L275'>275</a>
+<a name='L276'></a><a href='#L276'>276</a>
+<a name='L277'></a><a href='#L277'>277</a>
+<a name='L278'></a><a href='#L278'>278</a>
+<a name='L279'></a><a href='#L279'>279</a>
+<a name='L280'></a><a href='#L280'>280</a>
+<a name='L281'></a><a href='#L281'>281</a>
+<a name='L282'></a><a href='#L282'>282</a>
+<a name='L283'></a><a href='#L283'>283</a>
+<a name='L284'></a><a href='#L284'>284</a>
+<a name='L285'></a><a href='#L285'>285</a>
+<a name='L286'></a><a href='#L286'>286</a>
+<a name='L287'></a><a href='#L287'>287</a>
+<a name='L288'></a><a href='#L288'>288</a>
+<a name='L289'></a><a href='#L289'>289</a>
+<a name='L290'></a><a href='#L290'>290</a>
+<a name='L291'></a><a href='#L291'>291</a>
+<a name='L292'></a><a href='#L292'>292</a>
+<a name='L293'></a><a href='#L293'>293</a>
+<a name='L294'></a><a href='#L294'>294</a>
+<a name='L295'></a><a href='#L295'>295</a>
+<a name='L296'></a><a href='#L296'>296</a>
+<a name='L297'></a><a href='#L297'>297</a>
+<a name='L298'></a><a href='#L298'>298</a>
+<a name='L299'></a><a href='#L299'>299</a>
+<a name='L300'></a><a href='#L300'>300</a>
+<a name='L301'></a><a href='#L301'>301</a>
+<a name='L302'></a><a href='#L302'>302</a>
+<a name='L303'></a><a href='#L303'>303</a>
+<a name='L304'></a><a href='#L304'>304</a>
+<a name='L305'></a><a href='#L305'>305</a>
+<a name='L306'></a><a href='#L306'>306</a>
+<a name='L307'></a><a href='#L307'>307</a>
+<a name='L308'></a><a href='#L308'>308</a>
+<a name='L309'></a><a href='#L309'>309</a>
+<a name='L310'></a><a href='#L310'>310</a>
+<a name='L311'></a><a href='#L311'>311</a>
+<a name='L312'></a><a href='#L312'>312</a>
+<a name='L313'></a><a href='#L313'>313</a>
+<a name='L314'></a><a href='#L314'>314</a>
+<a name='L315'></a><a href='#L315'>315</a>
+<a name='L316'></a><a href='#L316'>316</a>
+<a name='L317'></a><a href='#L317'>317</a>
+<a name='L318'></a><a href='#L318'>318</a>
+<a name='L319'></a><a href='#L319'>319</a>
+<a name='L320'></a><a href='#L320'>320</a>
+<a name='L321'></a><a href='#L321'>321</a>
+<a name='L322'></a><a href='#L322'>322</a>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a>
+<a name='L333'></a><a href='#L333'>333</a>
+<a name='L334'></a><a href='#L334'>334</a>
+<a name='L335'></a><a href='#L335'>335</a>
+<a name='L336'></a><a href='#L336'>336</a>
+<a name='L337'></a><a href='#L337'>337</a>
+<a name='L338'></a><a href='#L338'>338</a>
+<a name='L339'></a><a href='#L339'>339</a>
+<a name='L340'></a><a href='#L340'>340</a>
+<a name='L341'></a><a href='#L341'>341</a>
+<a name='L342'></a><a href='#L342'>342</a>
+<a name='L343'></a><a href='#L343'>343</a>
+<a name='L344'></a><a href='#L344'>344</a>
+<a name='L345'></a><a href='#L345'>345</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const en = {
+  common: {
+    cancel: "Cancel",
+    close: "Close",
+    retry: "Retry",
+    back: "Back",
+    newWindow: "(opens in a new window)",
+  },
+  spaceApp: {
+    loading: "Loading…",
+    brandSubtitle: "Halloween map · 31\u00a0October",
+    signInTitle: "Welcome back",
+    signInIntro: "Enter the email your invite was sent to, and we'll send you a sign-in link.",
+    signInEmail: "Your email",
+    signInSubmit: "Send sign-in link",
+    signInSent: "Check your email for a sign-in link.",
+    signInFailed: "That sign-in link is invalid or expired. Please request a new one.",
+    signOut: "Sign out",
+    closedTitle: "Thank you, {community}!",
+    eventEnded: "This map has ended and its data has been removed.",
+    offline: "You're offline. The map still works, but changes will fail until you're back online.",
+    viewLabel: "View",
+    mapView: "Map",
+    listView: "List",
+    refresh: "Refresh the map",
+    menu: "Menu",
+    attribution: "© OpenStreetMap contributors",
+<span class="fstat-no" title="function not covered" >    housesCount: (c</span>ount: number) =&gt;
+<span class="cstat-no" title="statement not covered" >      count === 1 ? "1 house is handing out candy" : `${count} houses are handing out candy`,</span>
+    noLocationsYet: "No houses on the map yet.",
+    yourHouse: "your house",
+    visitorBadge: "Signed in as a visitor (view only)",
+    participantBadge: "Signed in as a participant",
+    addPin: "Add my house",
+    editPin: "Edit my house",
+    deletePin: "Remove my house",
+    confirmDeletePinTitle: "Remove your house from the map?",
+    confirmDeletePinMessage: "Your pin disappears for everyone right away. This can't be undone.",
+<span class="fstat-no" title="function not covered" >    stepOf: (s</span>tep: number, total: number) =&gt; <span class="cstat-no" title="statement not covered" >`Step ${step} of ${total}`,</span>
+    placementTitle: "Tap your front door, or move the map until the pumpkin is on it",
+    placementInstructions:
+      "Tap your front door on the map, or drag the map, or use the arrow keys or the arrow buttons, until your front door is under the pumpkin.",
+    nudgeLabel: "Move the map",
+    useMyLocation: "Use my location",
+    locatingMe: "Finding you…",
+    locateFailed: "Couldn't get your location. You can still move the map by hand.",
+    locateOutside: "Your device is outside {community}, so the map stays on the village. Move it to your front door.",
+    nudgeNorth: "Move north",
+    nudgeSouth: "Move south",
+    nudgeEast: "Move east",
+    nudgeWest: "Move west",
+    confirmLocation: "This is my front door",
+    statusInside: "Inside {community}",
+    statusOutside: "Outside {community}: move the map back",
+<span class="fstat-no" title="function not covered" >    positionAnnouncement: (l</span>at: string, lng: string, inside: boolean) =&gt;
+<span class="cstat-no" title="statement not covered" >      `Current position ${lat}, ${lng}, ${inside ? "inside" : "outside"} the map area.`,</span>
+    detailsTitle: "What should neighbors see?",
+    labelField: "Name on the map",
+    labelPlaceholder: "e.g. Addams Family",
+<span class="fstat-no" title="function not covered" >    labelCounter: (u</span>sed: number, max: number) =&gt; <span class="cstat-no" title="statement not covered" >`${used} / ${max}`,</span>
+    noteField: "Note for trick-or-treaters (optional)",
+    notePlaceholder: "e.g. Candy at the side gate until 8 pm",
+<span class="fstat-no" title="function not covered" >    noteCounter: (u</span>sed: number, max: number) =&gt; <span class="cstat-no" title="statement not covered" >`${used} / ${max}`,</span>
+    minimizationHint: "Please don't add children's names, phone numbers or your full address.",
+    fairness:
+      "Neighbors plan their evening around this map, so please keep your pin up through Halloween. You can still remove it any time, and it's gone immediately.",
+    save: "Save my house",
+    saveFailed: "Couldn't save your house. Please try again.",
+    removeMeButton: "Remove me from the map",
+    removeMeHint: "Deletes your pin and your account right away.",
+    removeMeConfirmTitle: "Remove yourself from this map?",
+    removeMeConfirmMessage:
+      "This deletes your pin, your account and your active sessions immediately, and withdraws your consent. Invites you sent that haven't been accepted are cancelled too. This can't be undone.",
+    removeMeConfirmButton: "Yes, remove me",
+    removeMeFailed: "Couldn't remove your account. Please try again.",
+    inviteTitle: "Invite neighbors",
+    inviteEmail: "Their email",
+    inviteRole: "They can",
+    roleParticipant: "Add their house and invite others",
+    roleVisitor: "Only look at the map",
+    roleParticipantHint: "For homes handing out sweets: they set their pin and can invite neighbors.",
+    roleVisitorHint: "For families going trick-or-treating: they see the houses, nothing else.",
+    roleFixedHint: "This can't be changed after they join.",
+    sendInvite: "Send invite",
+    inviteSent: "If that invite can be sent, it has been.",
+    inviteFailed: "Couldn't send that invite. Please try again.",
+    pendingInvitesTitle: "Invites you've sent",
+    noPendingInvites: "No invites sent yet.",
+    inviteStatusPending: "Pending",
+    inviteStatusAccepted: "Accepted",
+    inviteStatusRevoked: "Revoked",
+    inviteStatusExpired: "Expired",
+    revokeInvite: "Revoke",
+    revokeInviteFailed: "Couldn't revoke that invite.",
+    deleteInvite: "Delete",
+    deleteInviteFailed: "Couldn't delete that invite.",
+    acceptInviteTitle: "You're invited to the {community} Halloween map",
+    acceptInviteIntro: "Neighbors mark the houses that hand out candy on 31 October, so families know where to knock.",
+    acceptInviteInviteOnly: "Only neighbors with an invite can see the map.",
+    acceptInviteNoAddresses: "No addresses: a house is a pin at its front door.",
+    acceptInviteDeleted: "Everything is deleted on 1 November.",
+<span class="fstat-no" title="function not covered" >    acceptInviteConsent: () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >      "I agree that my email, and my pin and its note if I add one, are stored for this map until 1 November.",</span>
+    acceptInviteSubmit: "Join the map",
+    acceptInviteFailed: "That invite link is invalid, expired, or already used.",
+    acceptInviteConsentRequired: "Please tick the box to agree before joining.",
+    welcomeKicker: "You're in!",
+    welcomeTitle: "Put your house on the map in three steps",
+    welcomeSteps: [
+      { title: "Place your pin", text: "Tap your front door on the map, and the pumpkin goes there." },
+      {
+        title: "Give it a name",
+        text: "Like \"Addams Family\", plus a note such as \"candy at the side gate\". No children's names, please.",
+      },
+      { title: "Invite your neighbors", text: "The more houses on the map, the better the evening." },
+    ],
+    welcomeLookAround: "Just look at the map",
+    privacyLink: "Privacy notice",
+    languageLabel: "Language",
+    backToMap: "Back to the map",
+    networkError: "Can't reach the server. Check your connection and try again.",
+    tooManyRequests: "Too many attempts. Please wait a few minutes and try again.",
+    loadSpaceFailed: "This map couldn't be loaded. Please try again.",
+    loadPinsFailed: "The houses couldn't be loaded. Please try again.",
+    signInRequestFailed: "The sign-in link couldn't be sent. Please try again.",
+    inviteLimit: "You've reached the invite limit for now. Please try again later.",
+    requestAccessLink: "No invite yet? Ask to join",
+    requestAccessTitle: "Ask to join the map",
+    requestAccessIntro:
+      "Tell the neighbors on the map who you are. One of them can let you in, and you'll get an invite by email.",
+    requestAccessEmail: "Your email",
+    requestAccessMessage: "Who are you? (optional)",
+    requestAccessMessagePlaceholder: "e.g. Anna and Tom, new in the village",
+    requestAccessMessageHint: "Everyone on the map sees this. No children's names or full address, please.",
+<span class="fstat-no" title="function not covered" >    requestAccessConsent: () =&gt;</span>
+<span class="cstat-no" title="statement not covered" >      "I agree that my email and note are shown to the participants of this map until one of them answers, and deleted on 1 November at the latest.",</span>
+    requestAccessConsentRequired: "Please tick the box to agree before sending.",
+    requestAccessSubmit: "Ask to join",
+    requestAccessSent: "Thanks! If your request can be passed on, the neighbors on the map will see it. Watch your inbox for an invite.",
+    requestAccessFailed: "Couldn't send your request. Please try again.",
+    accessRequestsTitle: "Requests to join",
+<span class="fstat-no" title="function not covered" >    accessRequestsWaiting: (c</span>ount: number) =&gt;
+<span class="cstat-no" title="statement not covered" >      count === 1 ? "1 person asked to join" : `${count} people asked to join`,</span>
+    accessRequestsHint: "Allowing sends them an invite from you. Denying deletes the request; they aren't told.",
+    noAccessRequests: "Nobody is waiting right now.",
+    allowAccess: "Allow",
+    denyAccess: "Deny",
+<span class="fstat-no" title="function not covered" >    accessRequestAllowed: (e</span>mail: string) =&gt; <span class="cstat-no" title="statement not covered" >`Invite sent to ${email}.`,</span>
+    accessRequestFailed: "Couldn't answer that request. Please try again.",
+<span class="fstat-no" title="function not covered" >    accessRequestsAnswered: (c</span>ount: number) =&gt;
+<span class="cstat-no" title="statement not covered" >      count === 1 ? "1 request answered" : `${count} requests answered`,</span>
+    answeredTitle: "Answered in the last 24 hours",
+    answeredHint: "Everyone on the map gets the same email, so whoever is first answers. Who asked isn't shown here.",
+<span class="fstat-no" title="function not covered" >    answeredAllowed: (b</span>yYou: boolean): string =&gt; (<span class="cstat-no" title="statement not covered" >byYou ? "Let in by you" : "Let in by another neighbor"),</span>
+<span class="fstat-no" title="function not covered" >    answeredDenied: (b</span>yYou: boolean): string =&gt; (<span class="cstat-no" title="statement not covered" >byYou ? "Turned down by you" : "Turned down by another neighbor"),</span>
+    answeredInvite: {
+      joined: "joined the map",
+      pending: "invite sent, not joined yet",
+      expired: "invite expired",
+      revoked: "invite withdrawn",
+    },
+  },
+  spaceRules: {
+    title: "Before you head out",
+    intro: "The rules of the evening in {community}.",
+    menuLink: "Trick-or-treat rules",
+    rules: [
+      {
+        title: "A pin or a pumpkin: ring",
+        text: "Ring where there's a pin on the map or a lit jack-o'-lantern by the door. Not every house made it onto the map, but a pumpkin is the sign.",
+      },
+      {
+        title: "No pin, no pumpkin: walk on",
+        text: "Not everyone celebrates Halloween. Let them have a quiet evening.",
+      },
+      { title: "Ring once", text: "If nobody comes or the lights are off, go on to the next house." },
+      {
+        title: "Be kind",
+        text: "Say \"Trick or treat!\" and thank you, don't empty the bowl, and keep off gardens and decorations.",
+      },
+      {
+        title: "Stay safe",
+        text: "Little ones go with a grown-up. Take a torch or wear reflectors, and watch for cars when you cross.",
+      },
+    ],
+    done: "Got it, let's go!",
+  },
+  spaceSite: {
+    title: "No pin, no ring",
+    kicker: "An open-source Halloween map",
+    lead: "An invite-only trick-or-treat map that protects the neighbors who aren't into Halloween. Houses handing out sweets put a pin at their front door, and families ring only there. Everyone else gets a quiet evening, without having to say no.",
+    tryDemo: "Try the demo",
+    getCode: "Get the code",
+    problemTitle: "The problem",
+    problem:
+      "Trick-or-treating is still new in many villages and towns. Families don't know which doors are welcome. And not every neighbor wants the doorbell ringing all evening: some can't, some don't celebrate, some just want a quiet night. Asking them to put up a sign to opt out puts the burden on the wrong people.",
+    ideaTitle: "The idea: opt in, not out",
+    idea: "Only the houses that want visitors mark themselves. The map shows families where those houses are, and the rule for everyone else is simple: no pin, no ring. For houses that didn't make it onto the map, a lit jack-o'-lantern by the door means the same.",
+    howTitle: "How it works",
+    how: [
+      { title: "Neighbors invite neighbors", text: "The map is invite-only. Anyone else can ask to join, and any participant can let them in." },
+      { title: "A pin at the front door", text: "Tap your front door on the map and give it a name and a note. Never an address." },
+      { title: "A map for families", text: "Families see the map on their phone, even offline, and get the rules of the evening when they open it." },
+      { title: "Gone at midnight", text: "Everyone gets a thank-you email on Halloween, then everything is deleted automatically." },
+    ],
+    screenshotsAlt: [
+      "The invitation page: you're invited to the Halloween map.",
+      "The map with pumpkin pins on the houses taking part.",
+      "Placing a house: the pumpkin marks the front door.",
+    ],
+    privacyTitle: "Privacy by design",
+    privacy: [
+      "Invite-only: no public map, nothing for search engines.",
+      "No addresses: a pin at a door, and a name you choose.",
+      "No third parties while you use it: the map, fonts and code come from the map's own server. No analytics, no ads, no tracking.",
+      "Deleted at midnight: the data lives only on the server, with no backups, and a scheduled job deletes it when the event ends.",
+      "Open about it: participants see who answered a request to join, and the privacy notice says plainly what's stored.",
+    ],
+    privacyExample: "Read the example privacy notice",
+    outreachTitle: "Getting the word out",
+    outreach:
+      "A map only works if people know about it. Participants get ready-made WhatsApp status images in their language: for families, for houses handing out sweets, for neighbors who'd rather have a quiet night, and on how to join.",
+    outreachLink: "See the share page",
+    pilotTitle: "The 2026 pilot in Meckenhausen",
+<span class="fstat-no" title="function not covered" >    pilot: (h</span>ouses: number): string =&gt;
+<span class="cstat-no" title="statement not covered" >      `In Meckenhausen, a village in Bavaria, ${houses} houses put their front door on the map for Halloween 2026. The idea is older than the app; it took a few tries:`,</span>
+    timeline: [
+      { year: "2019", text: "The first attempt: an empty project and a lot of plans." },
+      { year: "2023", text: "A first map with markers on it." },
+      { year: "2024", text: "Members, organizations, and houses imported from a spreadsheet." },
+      { year: "2025", text: "Filters, and a map that stays within the village." },
+      { year: "2026", text: "Built again from scratch around privacy. Live from 3 October until midnight on Halloween." },
+    ],
+    effort:
+      "More than 350 commits, over 60 pull requests, more than 200 automated tests, a small server in Germany, and a lot of evenings.",
+    runTitle: "Run it for your community",
+    run: [
+      "Fork the repository.",
+      "Describe your community in community/community.json: its name, boundary, time zone and when the event ends.",
+      "Cut the map for your area with scripts/build-tiles.sh, and make your WhatsApp images with pnpm images:whatsapp.",
+      "Deploy: the API, its database and the web server run with Docker Compose on any small server (we used Hetzner). The app itself is a static site.",
+      "Add yourself as the first participant and start inviting your neighbors.",
+    ],
+    runGuide: "Read the setup guide",
+    nextTitle: "What's next",
+    next: [
+      "Print the map, for neighbors without a smartphone, or to hang up at the bakery.",
+      "A one-command setup.",
+      "Real outlines from OpenStreetMap instead of a box around the village.",
+      "More languages.",
+    ],
+    nextHelp: "Ideas and help are welcome: open an issue or a pull request.",
+    footer: "Made by Philip Saa in Meckenhausen, Bavaria.",
+    demoTitle: "Demo map",
+    demoNotice: "A demo: houses you add stay in this browser tab and vanish when you reload. Nothing is sent anywhere.",
+    demoAddHouse: "Add a house",
+    demoRules: "The rules families see",
+    demoEmpty: "No houses yet. Add one: tap a front door on the map.",
+    backToSite: "Back to the project",
+    shareIntro:
+      "These are the images participants share as their WhatsApp status, each with its text, in the reader's language. Download one or share it straight to WhatsApp.",
+    shareUrl: "halloween.domain.com",
+  },
+  spaceShare: {
+    title: "Let your neighbors know",
+    menuLink: "Let your neighbors know",
+    intro:
+      "Help more homes and families find the map. Save an image and post it as your WhatsApp status or send it to a group, with the text below it so the link can be tapped.",
+    mobileHint: "On a phone, if Download only opens the image: press and hold it, then save it.",
+    share: "Share",
+    download: "Download",
+    copyText: "Copy the text",
+    copied: "Copied.",
+    copyFailed: "Couldn't copy. Select the text and copy it yourself.",
+    resources: {
+      candy: {
+        title: "Where's the candy?",
+        audience: "For anyone in the village: what the map is.",
+        alt: "WhatsApp status: where's the candy? Our Halloween map shows the kids which houses in {community} are handing out treats. Invite only, no addresses, deleted on 1 November. Want to join? halloween.cowglow.io",
+        caption: (url: string) =&gt;
+          `Where's the candy? On 31 October our {community} Halloween map shows the kids which houses are handing out treats. Invite only, no addresses, and everything is deleted on 1 November. Want to join? Ask here:\n${url}`,
+      },
+      quiet: {
+        title: "Not into Halloween?",
+        audience: "For neighbors who'd rather not be rung: the map asks families to ring only where there's a pin.",
+        alt: "WhatsApp status: not into Halloween? That's fine. The map shows the kids which houses hand out sweets, so they can skip the rest. You don't need to do anything; for a quiet evening, leave the porch light off. No pin, no ring.",
+        caption: () =&gt;
+          "Not into Halloween? That's fine. On 31 October our {community} map shows families which houses are handing out sweets, and asks them to ring only there. No pin, no ring. You don't need to do anything; for a quiet evening, just leave the porch light off.",
+      },
+      askToJoin: {
+        title: "How to get on the map",
+        audience: "For neighbors who aren't on the map yet.",
+        alt: "WhatsApp status: how to get on the map. Open halloween.cowglow.io, tap “No invite yet? Ask to join”, say who you are, and someone on the map lets you in.",
+        caption: (url: string) =&gt;
+          `Halloween in {community}: on 31 October our map shows where the candy is. You can now ask to join yourself, no need to wait for an invite:\n${url}\nSay who you are, and someone on the map lets you in. Your invite arrives by email.`,
+      },
+      homes: {
+        title: "Handing out sweets?",
+        audience: "For neighbors who could put their front door on the map.",
+        alt: "WhatsApp status: handing out sweets? Ask to join at halloween.cowglow.io, write “We're handing out sweets”, then add your house to the map.",
+        caption: (url: string) =&gt;
+          `Handing out sweets on Halloween? Put your front door on our {community} map, so kids know where to knock on 31 October. Ask to join here and write “We're handing out sweets” under “Who are you?”:\n${url}\nNo address is shown, just a pin at your door, and everything is deleted on 1 November.`,
+      },
+      roles: {
+        title: "Who are you inviting?",
+        audience: "For people already on the map: which option to pick when inviting or letting someone in.",
+        alt: "Who are you inviting? “Add their house and invite others” is for homes handing out sweets, “Only look at the map” for families. It can't be changed afterwards.",
+        caption: () =&gt;
+          "Inviting someone to the {community} Halloween map? Pick “Add their house and invite others” for homes handing out sweets, and “Only look at the map” for families going trick-or-treating. It can't be changed afterwards, so choose before you tap “Send invite” or “Allow”.",
+      },
+    },
+  },
+  spacePrivacy: {
+    title: "Privacy notice",
+    intro:
+      "This map lets invited neighbors in {community} share a front-door pin for trick-or-treating on Halloween. Here's what that means for your data.",
+    controllerTitle: "Who's responsible for this data",
+<span class="fstat-no" title="function not covered" >    controller: (n</span>ame: string, contact: string) =&gt; <span class="cstat-no" title="statement not covered" >`${name}. Contact: ${contact}.`,</span>
+    purposeTitle: "Why this data is collected",
+    purpose:
+      "Solely to coordinate trick-or-treat visits for Halloween in {community}: showing participants' front-door pins to invited neighbors so they know who's taking part. On Halloween itself, before everything is deleted, everyone on the map gets one thank-you email.",
+    dataCollectedTitle: "What's collected",
+    dataCollected:
+      "Your email (to sign you in), the name and note you enter for your pin, your pin's precise map location, the language you use the app in (so your emails come in it), your IP address (kept briefly in server access logs), and a record that you consented, with which version of this notice.",
+    whoSeesTitle: "Who can see it",
+    whoSees: "Only people you or another participant have invited to this specific map — no public access.",
+    accessRequestsTitle: "If you ask to join",
+    accessRequests:
+      "Your email, your note and when you asked are shown to the participants of this map so one of them can let you in. Allowing sends you an invite and deletes the request; denying deletes it. For 24 hours afterwards, the participants see that a request was answered, by which of them, and whether the invite has been used, but not your email or note. Unanswered requests are deleted with everything else. To have yours deleted sooner, contact the person responsible above.",
+    thirdPartiesTitle: "Who else receives it",
+    thirdParties:
+      "Two service providers, and nobody else. {hosting} hosts the server this map runs on, including its database. Resend (resend.com) sends this map's emails: sign-in links, invites, the notice that someone asked to join, and the thank-you on Halloween. Resend receives your email address and each email's text, and keeps its own delivery records under its own retention rules. Resend sends from its EU region (Ireland) and doesn't track whether emails are opened or links clicked. No analytics, no advertising, no other third parties.",
+    retentionTitle: "How long it's kept",
+<span class="fstat-no" title="function not covered" >    retention: (d</span>ate: string) =&gt;
+<span class="cstat-no" title="statement not covered" >      `Your email address and everything else you enter are stored only in this map's database on that server. There are no backups or copies elsewhere. Everything is deleted at ${date} — midnight after Halloween — and since there are no backups, nothing is left over.`,</span>
+    rightsTitle: "Your rights",
+    rights:
+      "You can access, correct, or erase your data, and withdraw your consent, at any time using \"Remove me\" in the app — it takes effect immediately. You can also complain to Bavaria's data protection supervisory authority (Bayerisches Landesamt für Datenschutzaufsicht, BayLDA).",
+<span class="fstat-no" title="function not covered" >    noticeVersion: (v</span>ersion: string) =&gt; <span class="cstat-no" title="statement not covered" >`Notice version: ${version}`,</span>
+  },
+};
+&nbsp;
+export type Translations = typeof en;
+export default en;
+&nbsp;</pre></td></tr></table></pre>
+
+                <div class='push'></div><!-- for sticky footer -->
+            </div><!-- /wrapper -->
+            <div class='footer quiet pad2 space-top1 center small'>
+                Code coverage generated by
+                <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
+                at 2026-11-10T05:39:14.651Z
+            </div>
+        <script src="../../../../prettify.js"></script>
+        <script>
+            window.onload = function () {
+                prettyPrint();
+            };
+        </script>
+        <script src="../../../../sorter.js"></script>
+        <script src="../../../../block-navigation.js"></script>
+    </body>
+</html>
+    
